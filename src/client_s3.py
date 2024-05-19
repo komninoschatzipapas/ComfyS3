@@ -96,7 +96,10 @@ class S3:
     def upload_file(self, local_path, s3_path):
         try:
             bucket = self.s3_client.Bucket(self.bucket_name)
-            bucket.upload_file(local_path, s3_path)
+            if lower(os.getenv("S3_PUBLIC")) != "true":
+                bucket.upload_file(local_path, s3_path)
+            else:
+                bucket.upload_file(local_path, s3_path, ACL='public-read')
             return s3_path
         except NoCredentialsError:
             err = "Credentials not available or not valid."
