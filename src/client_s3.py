@@ -96,7 +96,7 @@ class S3:
     def upload_file(self, local_path, s3_path):
         try:
             bucket = self.s3_client.Bucket(self.bucket_name)
-            if lower(os.getenv("S3_PUBLIC")) != "true":
+            if os.getenv("S3_PUBLIC").lower() != "true":
                 bucket.upload_file(local_path, s3_path)
             else:
                 bucket.upload_file(local_path, s3_path, ACL='public-read')
