@@ -40,7 +40,7 @@ class S3:
                     service_name='s3',
                     region_name=self.region,
                     aws_access_key_id=self.access_key,
-                    aws_secret_access_key=self.secret_key
+                    aws_secret_access_key=self.secret_key,
                     endpoint_url=self.endpoint
                 )
             return s3
