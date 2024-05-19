@@ -28,14 +28,14 @@ class S3:
             logger.error(err)
     
         try:
-            if not self.endpoint
+            if not self.endpoint:
                 s3 = boto3.resource(
                     service_name='s3',
                     region_name=self.region,
                     aws_access_key_id=self.access_key,
                     aws_secret_access_key=self.secret_key
                 )
-            else
+            else:
                 s3 = boto3.resource(
                     service_name='s3',
                     region_name=self.region,
