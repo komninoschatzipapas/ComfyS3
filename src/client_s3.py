@@ -99,7 +99,7 @@ class S3:
             if os.getenv("S3_PUBLIC").lower() != "true":
                 bucket.upload_file(local_path, s3_path)
             else:
-                bucket.upload_file(local_path, s3_path, ACL='public-read')
+                bucket.upload_file(local_path, s3_path, ExtraArgs={"ACL": "public-read"})
             return s3_path
         except NoCredentialsError:
             err = "Credentials not available or not valid."
