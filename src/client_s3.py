@@ -8,7 +8,8 @@ load_dotenv()
 
 
 class S3:
-    def __init__(self, region, access_key, secret_key, bucket_name):
+    def __init__(self, endpoint, region, access_key, secret_key, bucket_name):
+        self.endpoint = endpoint
         self.region = region
         self.access_key = access_key
         self.secret_key = secret_key
@@ -27,12 +28,21 @@ class S3:
             logger.error(err)
     
         try:
-            s3 = boto3.resource(
-                service_name='s3',
-                region_name=self.region,
-                aws_access_key_id=self.access_key,
-                aws_secret_access_key=self.secret_key
-            )
+            if not self.endpoint
+                s3 = boto3.resource(
+                    service_name='s3',
+                    region_name=self.region,
+                    aws_access_key_id=self.access_key,
+                    aws_secret_access_key=self.secret_key
+                )
+            else
+                s3 = boto3.resource(
+                    service_name='s3',
+                    region_name=self.region,
+                    aws_access_key_id=self.access_key,
+                    aws_secret_access_key=self.secret_key
+                    endpoint_url=self.endpoint
+                )
             return s3
         except Exception as e:
             err = f"Failed to create S3 client: {e}"
@@ -138,6 +148,7 @@ class S3:
 def get_s3_instance():
     try:
         s3_instance = S3(
+            endpoint=os.getenv("S3_ENDPOINT"),
             region=os.getenv("S3_REGION"),
             access_key=os.getenv("S3_ACCESS_KEY"),
             secret_key=os.getenv("S3_SECRET_KEY"),
